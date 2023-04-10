@@ -1,7 +1,7 @@
 """Models for Engine App"""
 
 from flask_sqlalchemy import SQLAlchemy
-from datetime import dateTime
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -16,31 +16,50 @@ class User(db.Model):
     email = db.Column(db.String(30), nullable=False, unique=True)
     password = db.Column(db.String(30), nullable=False)
 
+    tasks = db.relationship("Task", back_populates="user")
+
+    def __repr__(self):
+        return f"<User: user_id={self.user_id} fname={self.fname} lname={self.lname} email={self.email}>"
+    
+
+
 class Task(db.Model):
     """A task created by a user"""
 
     __tablename__ = "tasks"
 
     task_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
     title = db.Column(db.String)
     description = db.Column(db.Text)
     status = db.Column(db.String)
     task_created_at = db.Column(db.DateTime)
 
-class Feedback(db.model):
+    user = db.relationship("User", back_populates="tasks")
+    feedback = db.relationship("Feedback", back_populates="task")
+
+    def __repr__(self):
+        return f"<Task: task_id={self.task_id} title={self.title} user_id={self.user_id} status={self.status}>"
+
+
+class Feedback(db.Model):
     """Feedback from users"""
 
     __tablename__ = "user_feedback"
 
     feedback_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    task_id = db.Column(db.Integer)
+    task_id = db.Column(db.Integer, db.ForeignKey("tasks.task_id"))
     feedback = db.Column(db.Text)
     feedback_created_at = db.Column(db.DateTime)
 
+    task = db.relationship("Task", back_populates="feedback")
+
+    def __repr__(self):
+        return f"<Feedback: feedback_id={self.feedback_id} feedback={self.feedback}>"
 
 
-def connect_to_db(flask_app, db_uri="postgresql:///#----", echo=False):
+
+def connect_to_db(flask_app, db_uri="postgresql:///Engine_App", echo=False):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
     flask_app.config["SQLALCHEMY_ECHO"] = echo
     flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -49,8 +68,6 @@ def connect_to_db(flask_app, db_uri="postgresql:///#----", echo=False):
     db.init_app(flask_app)
 
     print("Connected to the db!")
-
-
 
 
 

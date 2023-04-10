@@ -4,12 +4,15 @@ from pprint import pformat
 import os
 import requests
 
+app = Flask(__name__)
+
+
 @app.route("/")
 def login_or_newAccount():
     return render_template("login.html")
 
 @app.route("/create-account")
-def sharkwords():
+def create_account():
     return render_template("create-account")
 
 @app.route("/dashboard")
