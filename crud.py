@@ -30,7 +30,7 @@ def create_task(task_id, user_id, title, description, status, task_created_at):
     """Create and return a new task."""
 
     task = Task(
-        task_id=task_id,                #DOES user_id in task override user_id in user??????
+        task_id=task_id,               
         user_id=user_id,
         title=title,
         description=description,
@@ -38,6 +38,39 @@ def create_task(task_id, user_id, title, description, status, task_created_at):
         task_created_at=task_created_at)
 
         return task
+
+
+def get_tasks():
+    """Return all tasks."""
+
+    return Task.query.all()
+
+
+def get_task_by_id(task_id):
+    """Return a task by primary key."""
+
+    return Task.query.get(task_id)
+
+
+def create_feedback(task_id, feedback):
+    """Create and return new feedback."""
+
+    feedback = Feedback(task_id=task_id, feedback=feedback)
+
+    return feedback
+    
+
+def update_feedback(feedback_id, new_feedback):
+    """ Update feedback given feedback_id and the updated feedback. """
+    feedback = Feedback.query.get(feedback_id)
+    user_feedback.feedback = new_feedback
+
+if __name__ == "__main__":
+    from server import app
+
+    connect_to_db(app)
+
+
 
     
 
