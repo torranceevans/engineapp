@@ -1,9 +1,18 @@
 {% extends 'base.html' %}
 
-{% block title %} Dashboard {% endblock %}
+{% block title %} {{ user.fname }}'s Tasks {% endblock %}
 
 {% block body %}
 
-    <h1> Body Goes Here </h1>
-
+<h1>{{ user.fname }}</h1> 
+<ul>                                   
+{% for task in user.tasks %}
+    <li>
+        {{ task.title }}:                      
+    </li>
+{% endfor %}
+</ul>
 {% endblock %}
+
+
+<!-- <a href="/users">this is the text the user would see</a> -->
