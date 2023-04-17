@@ -2,11 +2,10 @@
 
 from model import db, User, Task, Feedback, connect_to_db
 
-def create_user(user_id, fname, lname, email, password):
+def create_user(fname, lname, email, password):
     """Create and return a new user."""
 
-    user = User(
-        user_id=user_id, 
+    user = User( 
         fname=fname, 
         lname=lname, 
         email=email, 
@@ -26,18 +25,17 @@ def get_user_by_email(email):
     return User.query.filter(User.email == email).first()
 
 
-def create_task(task_id, user_id, title, description, status, task_created_at):
+def create_task(user_id, title, description, status, task_created_at):
     """Create and return a new task."""
 
-    task = Task(
-        task_id=task_id,               
+    task = Task(               
         user_id=user_id,
         title=title,
         description=description,
         status=status,
         task_created_at=task_created_at)
 
-        return task
+    return task
 
 
 def get_tasks():
