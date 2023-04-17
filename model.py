@@ -52,7 +52,7 @@ class Feedback(db.Model):
     feedback = db.Column(db.Text)
     feedback_created_at = db.Column(db.DateTime)
 
-    task = db.relationship("Task", back_populates="feedback")
+    tasks = db.relationship("Task", back_populates="feedback")
 
     def __repr__(self):
         return f"<Feedback: feedback_id={self.feedback_id} feedback={self.feedback}>"
