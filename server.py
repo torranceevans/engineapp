@@ -13,10 +13,11 @@ app.jinja_env.undefined = StrictUndefined
 
 @app.route("/")
 def login_or_newAccount():
+
     return render_template("homepage.html")
 
 
-@app.route("/users", methods=["POST"])
+@app.route("/create-user", methods=["POST"])
 def register_user():
     """Create a new user."""
 
@@ -43,32 +44,58 @@ def process_login():
 
     email = request.form.get("email")
     password = request.form.get("password")
-
+   
     user = crud.get_user_by_email(email)
+   
     if not user or user.password != password:
         flash("The email or password you entered was incorrect.")
         return redirect("/")
     else:
         # Log in user by storing the user's email in session
         session["user_email"] = user.email
-        flash(f"Welcome back, {user.fname}!") #IS THIS PULLING FROM THE TABLE?
+        flash(f"Welcome back, {user.fname}!")
 
-    return redirect("/dashboard/<user_id>")
+    return redirect("/dashboard")
 
 
-@app.route("/dashboard/<user_id>")
-def dashboard_view(user_id):
+@app.route("/dashboard")     
+def dashboard_view():
     """Show details on a particular user."""
 
-    user = crud.get_user_by_id(user_id)
-    print(f"\n\n********************\n{user}\nuser.email={user.email}\n")
+    if "user_email" in session:
+        user_email = session["user_email"]
+        user = crud.get_user_by_email(user_email)
 
-    return render_template("dashboard.html", user=user)
+        return render_template("dashboard.html", user=user)
 
+    return redirect("/")
 
 @app.route("/create-task")
-def create_new_task():
+def create_task_view():
+    """Show create task page."""
+    
     return render_template("create-task.html")
+
+
+                                                        
+@app.route("/create-task", methods=["POST"])                         
+def create_new_task():
+    """Create new task"""
+
+    title = request.form.get("title")
+    work_time = request.form.get("work_time")
+    rest_time = request.form.get("rest_time")
+
+    new_task = create_task(title, work_time, rest_time)
+
+    db.session.add(new_task)
+    db.session.commit()
+    flash("Task created!")
+
+    return redirect("/dashboard")
+
+
+
 
 @app.route("/active-task")
 def active_task():
@@ -88,5 +115,6 @@ def sharkwords():
 
 
 if __name__ == '__main__':
+    connect_to_db(app)
     app.debug = True
     app.run(host='0.0.0.0')

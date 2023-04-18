@@ -25,15 +25,13 @@ def get_user_by_email(email):
     return User.query.filter(User.email == email).first()
 
 
-def create_task(user_id, title, description, status, task_created_at):
+def create_task(title, work_time, rest_time):
     """Create and return a new task."""
 
-    task = Task(               
-        user_id=user_id,
+    task = Task(
         title=title,
-        description=description,
-        status=status,
-        task_created_at=task_created_at)
+        work_time=work_time,
+        rest_time=rest_time)
 
     return task
 

@@ -4,6 +4,29 @@
 
 {% block body %}
 
-    <h1> Body Goes Here </h1>
+<h1> Create New Task </h1>
+
+<h2> Task Title </h2>
+<form action="/create-task" method="POST" id="create-task">
+    <p>
+        <input type="text" name="title">
+    </p>
+
+<h2> Work Time </h2>
+    <p>
+        <input type="text" name="work_time">
+    </p>
+
+<h2> Rest Time </h2>
+    <p>
+        <input type="text" name="rest_time">
+    </p>
+
+<button type="submit" form="create-task"> CREATE TASK </button>
+
+</form>
 
 {% endblock %}
+
+
+

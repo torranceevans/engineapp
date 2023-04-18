@@ -5,7 +5,7 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
-class User(db.Model):
+class User(db.Model):                   #Need to dropdb - need to find out the name !!!!!!!!!!!!!!!!
     """A user"""
 
     __tablename__ = "users"
@@ -31,8 +31,8 @@ class Task(db.Model):
     task_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
     title = db.Column(db.String)
-    description = db.Column(db.Text)
-    status = db.Column(db.String)
+    work_time = db.Column(db.Text) #How to display drop down selection !!!!!!!
+    rest_time = db.Column(db.Text) #How to display drop down selection !!!!!!!
     task_created_at = db.Column(db.DateTime)
 
     user = db.relationship("User", back_populates="tasks")
@@ -49,10 +49,11 @@ class Feedback(db.Model):
 
     feedback_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     task_id = db.Column(db.Integer, db.ForeignKey("tasks.task_id"))
-    feedback = db.Column(db.Text)
+    status = db.Column(db.String) #How to display drop down selection !!!!!!!!!!!!!!!!!!
+    feedback = db.Column(db.Text) #How to display drop selection !!!!!!!!!!!!!!!!!!!!!!!!!!!!
     feedback_created_at = db.Column(db.DateTime)
 
-    tasks = db.relationship("Task", back_populates="feedback")
+    task = db.relationship("Task", back_populates="feedback")
 
     def __repr__(self):
         return f"<Feedback: feedback_id={self.feedback_id} feedback={self.feedback}>"
@@ -80,3 +81,5 @@ if __name__ == "__main__":
     # query it executes.
 
     connect_to_db(app)
+    db.drop_all()
+    db.create_all()

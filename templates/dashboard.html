@@ -5,13 +5,25 @@
 {% block body %}
 
 <h1>{{ user.fname }}</h1> 
-<ul>                                   
-{% for task in user.tasks %}
-    <li>
-        {{ task.title }}:                      
-    </li>
+
+<form action="/create-task">
+    <button type="submit">NEW TASK</button>
+</form>
+
+<table>
+
+{% for task in user.tasks %}   <!--Where is tasks coming from?-->
+    <tr>
+        {{ task.title }}                     
+    </tr>
 {% endfor %}
-</ul>
+
+
+
+
+
+</table>
+
 {% endblock %}
 
 
