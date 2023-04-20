@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ task.title }}'s Feedback {% endblock %}
+
+{% block body %}
+
+<h1> {{ task.title }}'s Feedback </h1> 
+
+
+<table>
+
+{% for feedback in task.feedback %}   
+    <tr> {{ feedback.feedback }} </tr>
+    <tr> {{ feedback.feedback_created_at }} 
+{% endfor %}
+
+</table>
+
+{% endblock %}
+
+
+
+<!-- <a href="/users">this is the text the user would see</a> -->
