@@ -30,9 +30,9 @@ class Task(db.Model):
 
     task_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
-    title = db.Column(db.String)
-    work_time = db.Column(db.Text) #How to display drop down selection !!!!!!!
-    rest_time = db.Column(db.Text) #How to display drop down selection !!!!!!!
+    title = db.Column(db.String, unique=True)
+    work_time = db.Column(db.Text, nullable=False) #How to display drop down selection !!!!!!!
+    rest_time = db.Column(db.Text, nullable=False) #How to display drop down selection !!!!!!!
     task_created_at = db.Column(db.DateTime)
 
     user = db.relationship("User", back_populates="tasks")
@@ -49,8 +49,8 @@ class Feedback(db.Model):
 
     feedback_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     task_id = db.Column(db.Integer, db.ForeignKey("tasks.task_id"))
-    status = db.Column(db.String) #How to display drop down selection !!!!!!!!!!!!!!!!!!
-    feedback = db.Column(db.Text) #How to display drop selection !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    status = db.Column(db.String, nullable=False) #How to display drop down selection !!!!!!!!!!!!!!!!!!
+    feedback = db.Column(db.Text, nullable=False) #How to display drop selection !!!!!!!!!!!!!!!!!!!!!!!!!!!!
     feedback_created_at = db.Column(db.DateTime)
 
     task = db.relationship("Task", back_populates="feedback")

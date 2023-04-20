@@ -6,21 +6,18 @@
 
 <h1>{{ user.fname }}</h1> 
 
-<form action="/create-task">
-    <button type="submit">NEW TASK</button>
-</form>
+
+{% if user.tasks == [] %}
+<h4>No tasks to display yet!</h4>
+{% endif %}
 
 <table>
 
-{% for task in user.tasks %}   <!--Where is tasks coming from?-->
-    <tr>
-        {{ task.title }}                     
-    </tr>
+{% for task in user.tasks %}   
+    <tr> {{ task.title }} </tr>
+    <tr> {{ task.work_time }} </tr>
+    <tr> <a href="/feedback-records/{{ task.task_id }}"> TASK FEEDBACK </a> </tr> <!--NEED TO GET FEEDBACK PAGE TO MATCH TASK ASSOCIATED-->
 {% endfor %}
-
-
-
-
 
 </table>
 

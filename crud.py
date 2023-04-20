@@ -25,10 +25,11 @@ def get_user_by_email(email):
     return User.query.filter(User.email == email).first()
 
 
-def create_task(title, work_time, rest_time):
+def create_task(user, title, work_time, rest_time):
     """Create and return a new task."""
 
     task = Task(
+        user=user, # this is using the sqlalchemy relationship (see model.py lines 38 and 19)
         title=title,
         work_time=work_time,
         rest_time=rest_time)
@@ -48,10 +49,10 @@ def get_task_by_id(task_id):
     return Task.query.get(task_id)
 
 
-def create_feedback(task_id, feedback):
+def create_feedback(status, feedback):
     """Create and return new feedback."""
 
-    feedback = Feedback(task_id=task_id, feedback=feedback)
+    feedback = Feedback(status=status, feedback=feedback)
 
     return feedback
     

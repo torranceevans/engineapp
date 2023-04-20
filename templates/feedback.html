@@ -4,6 +4,30 @@
 
 {% block body %}
 
-    <h1> Body Goes Here </h1>
+    <h1> Task Feedback </h1>
+
+    <form action="/feedback" method="POST" id="/feedback">
+    <h2> Status </h2>
+        <p>
+            <input type="radio" id="completed" name="status" value="COMPLETED">
+                <label for="completed"> COMPLETED </label>
+
+            <input type="radio" id="in_progress" name="status" value="In Progress">
+                <label for="in_progress"> In Progress </label>
+        </p>
+    
+    <h2> Feedback </h2>
+        <p>
+            <input type="radio" id="productive" name="feedback" value="Productive">
+                <label for="productive"> Productive </label>
+            
+            <input type="radio" id="distracted" name="feedback" value="Distracted">
+                <label for="distracted"> Distracted </label>
+        </p>
+    
+    
+    <button type="submit" form="/feedback"> SUBMIT FEEDBACK </button>
+    
+    </form>
 
 {% endblock %}
