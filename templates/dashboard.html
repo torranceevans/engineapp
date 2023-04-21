@@ -11,9 +11,14 @@
 <h4>No tasks to display yet!</h4>
 {% endif %}
 
+<form> 
+    <button type="submit" formaction="/create-task"> NEW TASK </button>
+</form>
+
 <table>
 
-{% for task in user.tasks %}   
+{% for task in user.tasks %}
+    <tr> <a href="/active-task/{{ task.task_id }}"> START TASK </a> </tr>
     <tr> {{ task.title }} </tr>
     <tr> {{ task.work_time }} </tr>
     <tr> <a href="/feedback-records/{{ task.task_id }}"> TASK FEEDBACK </a> </tr> <!--NEED TO GET FEEDBACK PAGE TO MATCH TASK ASSOCIATED-->

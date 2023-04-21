@@ -37,9 +37,27 @@ class Task(db.Model):
 
     user = db.relationship("User", back_populates="tasks")
     feedback = db.relationship("Feedback", back_populates="task")
+    notes = db.relationship("Note", back_populates="task")
 
     def __repr__(self):
-        return f"<Task: task_id={self.task_id} title={self.title} user_id={self.user_id} status={self.status}>"
+        return f"<Task: task_id={self.task_id} title={self.title} user_id={self.user_id}>"
+
+
+class Note(db.Model):
+    """A note created in a given task by user"""
+
+    __tablename__ = "notes"
+
+    note_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    task_id = db.Column(db.Integer, db.ForeignKey("tasks.task_id"))
+    note = db.Column(db.Text)
+    note_created_at = db.Column(db.DateTime)
+
+    task = db.relationship("Task", back_populates="notes")
+
+    def __repr__(self):
+        return f"<Note: note_id={self.note_id} task_id {self.title} note={self.note} note_created_at={self.note_created_at}>"
+        
 
 
 class Feedback(db.Model):
@@ -56,7 +74,7 @@ class Feedback(db.Model):
     task = db.relationship("Task", back_populates="feedback")
 
     def __repr__(self):
-        return f"<Feedback: feedback_id={self.feedback_id} feedback={self.feedback}>"
+        return f"<Feedback: feedback_id={self.feedback_id} task_id={self.task_id} status={self.status} feedback={self.feedback} feedback_created_at={self.feedback_created_at}>"
 
 
 
@@ -81,5 +99,5 @@ if __name__ == "__main__":
     # query it executes.
 
     connect_to_db(app)
-    db.drop_all()
+    # db.drop_all()
     db.create_all()

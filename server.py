@@ -117,16 +117,40 @@ def create_new_task():
     #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
-@app.route("/active-task")
-def active_task():
-    return render_template("active-task.html")
+@app.route("/active-task/<task_id>")
+def active_task(task_id):
+
+    task = crud.get_task_by_id(task_id)
+
+    return render_template("active-task.html", task=task)
+
+@app.route("/note", methods=["POST"])
+def create_note():
+    """Create a note in task."""
+    
+    note = request.form.get("note")
+    task_id = request.form.get("task_id")
+    task_id = int(task_id)
+    # the task_id we got from the form object was a string,
+    # but our crud function needed a integer 
+
+    print("*"*20, f"\nin /note post route \nnote = {note} \ntask_id = {task_id}", "*"*20)
+
+    task = crud.get_task_by_id(task_id)
+
+    new_note = crud.create_note(task, note)
+
+    db.session.add(new_note)
+    db.session.commit()
+
+    return redirect(f"/feedback")
 
     #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
 @app.route("/feedback")        
 def feedback():
-    return render_template("feedback")
+    return render_template("feedback.html")
 
 @app.route("/feedback", methods=["POST"])                         
 def create_new_feedback():

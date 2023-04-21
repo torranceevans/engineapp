@@ -3,7 +3,15 @@
 {% block title %} Active Task Page {% endblock %}
 
 {% block body %}
+{{task}}
 
     <h1> Body Goes Here </h1>
 
+    <form action="/note" method="POST">
+        <input name="note">
+        <input type="hidden" name="task_id" value="{{ task.task_id }}">
+        <input type="submit">
+    </form>
+
 {% endblock %}
+

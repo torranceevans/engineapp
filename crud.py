@@ -1,6 +1,6 @@
 """CRUD operations."""
 
-from model import db, User, Task, Feedback, connect_to_db
+from model import db, User, Task, Feedback, Note, connect_to_db
 
 def create_user(fname, lname, email, password):
     """Create and return a new user."""
@@ -35,6 +35,15 @@ def create_task(user, title, work_time, rest_time):
         rest_time=rest_time)
 
     return task
+
+def create_note(task, note):
+    """Create and return note."""
+
+    note = Note(
+        task=task,
+        note=note)
+    
+    return note
 
 
 def get_tasks():
