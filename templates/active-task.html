@@ -3,9 +3,8 @@
 {% block title %} Active Task Page {% endblock %}
 
 {% block body %}
-{{task}}
 
-    <h1> Body Goes Here </h1>
+    <h1> {{task.title}} </h1>
 
     <form action="/note" method="POST">
         <input name="note">

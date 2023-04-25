@@ -1,6 +1,7 @@
 """CRUD operations."""
 
 from model import db, User, Task, Feedback, Note, connect_to_db
+import datetime
 
 def create_user(fname, lname, email, password):
     """Create and return a new user."""
@@ -41,7 +42,8 @@ def create_note(task, note):
 
     note = Note(
         task=task,
-        note=note)
+        note=note,
+        note_created_at= datetime.datetime.now())
     
     return note
 
@@ -58,10 +60,14 @@ def get_task_by_id(task_id):
     return Task.query.get(task_id)
 
 
-def create_feedback(status, feedback):
+def create_feedback(task_id, status, feedback):
     """Create and return new feedback."""
 
-    feedback = Feedback(status=status, feedback=feedback)
+    feedback = Feedback(
+        task_id=task_id,
+        status=status, 
+        feedback=feedback,
+        feedback_created_at= datetime.datetime.now())
 
     return feedback
     

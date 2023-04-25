@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<h1>{{ user.fname }}</h1> 
+<h1>{{ user.fname }}'s Tasks</h1> 
 
 
 {% if user.tasks == [] %}
@@ -18,10 +18,14 @@
 <table>
 
 {% for task in user.tasks %}
-    <tr> <a href="/active-task/{{ task.task_id }}"> START TASK </a> </tr>
-    <tr> {{ task.title }} </tr>
-    <tr> {{ task.work_time }} </tr>
-    <tr> <a href="/feedback-records/{{ task.task_id }}"> TASK FEEDBACK </a> </tr> <!--NEED TO GET FEEDBACK PAGE TO MATCH TASK ASSOCIATED-->
+    <div>
+        <tr> <a href="/active-task/{{ task.task_id }}"> START TASK </a> </tr>
+        <tr> {{ task.title }} </tr>
+        <tr> {{ task.work_time }} </tr>
+        <tr> {{ task.rest_time }}</tr>
+        <tr> <a href="/note-records/{{ task.task_id }}"> NOTES </a> </tr>
+        <tr> <a href="/feedback-records/{{ task.task_id }}"> FEEDBACK </a> </tr> 
+    </div>
 {% endfor %}
 
 </table>

@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, flash, session, redirect
 
 from model import connect_to_db, db
 import crud
+import datetime 
 
 from jinja2 import StrictUndefined
 
@@ -85,7 +86,11 @@ def dashboard_view():
 @app.route("/create-task")
 def show_task_form():
     """Show create task page."""
-    # TODO: handle user not yet logged in (user_email not in session): probably redirect them to login page
+
+    # if "user email" not in session:  #Keeps sending back to home when clicking "new task"
+    #     flash("Please log in!")    #log or create profile (what's happening here???)
+    #     return redirect ("/")
+
     return render_template("create-task.html")
 
 
@@ -116,9 +121,23 @@ def create_new_task():
 
     #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
+@app.route("/note-records/<task_id>")
+def display_task_notes(task_id):
+    "Show all notes for given task"
+
+    task = crud.get_task_by_id(task_id)
+    for note in task.notes:
+        if note.note_created_at is not None:
+            print("*"*20, dir(note.note_created_at))
+
+    return render_template("note-records.html", task=task)
+    
+    #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 
 @app.route("/active-task/<task_id>")
 def active_task(task_id):
+    """Show active task page"""
 
     task = crud.get_task_by_id(task_id)
 
@@ -143,14 +162,17 @@ def create_note():
     db.session.add(new_note)
     db.session.commit()
 
-    return redirect(f"/feedback")
+    return redirect(f"/feedback/{task_id}")
 
     #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
-@app.route("/feedback")        
-def feedback():
-    return render_template("feedback.html")
+@app.route("/feedback/<task_id>")        
+def feedback(task_id):
+
+    task = crud.get_task_by_id(task_id)
+
+    return render_template("feedback.html", task=task)
 
 @app.route("/feedback", methods=["POST"])                         
 def create_new_feedback():
@@ -158,8 +180,9 @@ def create_new_feedback():
 
     status = request.form.get("status")
     feedback = request.form.get("feedback")
+    task_id = request.form.get("task_id")
 
-    new_feedback = crud.create_feedback(status, feedback)
+    new_feedback = crud.create_feedback(task_id, status, feedback)
 
     db.session.add(new_feedback)
     db.session.commit()
@@ -173,6 +196,8 @@ def display_user_feedback(task_id):
     """Show feedback records on a given task"""
 
     task = crud.get_task_by_id(task_id)
+    print(task.feedback)
+    
     # now we have a task object
     # thank to the relationship you set upi in model, 
     # you should be able to get a list of feedback 

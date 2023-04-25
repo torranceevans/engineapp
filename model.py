@@ -67,8 +67,8 @@ class Feedback(db.Model):
 
     feedback_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     task_id = db.Column(db.Integer, db.ForeignKey("tasks.task_id"))
-    status = db.Column(db.String, nullable=False) #How to display drop down selection !!!!!!!!!!!!!!!!!!
-    feedback = db.Column(db.Text, nullable=False) #How to display drop selection !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    status = db.Column(db.String, nullable=False) 
+    feedback = db.Column(db.Text, nullable=False) 
     feedback_created_at = db.Column(db.DateTime)
 
     task = db.relationship("Task", back_populates="feedback")
@@ -99,5 +99,5 @@ if __name__ == "__main__":
     # query it executes.
 
     connect_to_db(app)
-    # db.drop_all()
+    db.drop_all()
     db.create_all()

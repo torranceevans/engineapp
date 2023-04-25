@@ -6,12 +6,23 @@
 
 <h1> {{ task.title }}'s Feedback </h1> 
 
+{% if task.feedback == [] %}
+<h4>No feedback to display yet!</h4>
+{% endif %}
+
 
 <table>
 
-{% for feedback in task.feedback %}   
-    <tr> {{ feedback.feedback }} </tr>
-    <tr> {{ feedback.feedback_created_at }} 
+{% for feedback in task.feedback %}
+    <div>
+        {% if feedback.feedback_created_at != None %}
+        <tr> {{ feedback.feedback_created_at.strftime("%-m/%d/%-y %-I:%M%p") }} </tr>
+        {% else %}
+        <tr>no date found</tr>
+        {% endif %}
+        <tr> {{ feedback.feedback }} </tr>
+        <tr> {{ feedback.status }} </tr>
+    </div>
 {% endfor %}
 
 </table>
