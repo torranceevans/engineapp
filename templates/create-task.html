@@ -7,6 +7,7 @@
 <h1> Create New Task </h1>
 
 <h2> Task Title </h2>
+
 <form action="/create-task" method="POST" id="create-task">
     <p>
         <input type="text" name="title">
@@ -14,12 +15,23 @@
 
 <h2> Work Time </h2>
     <p>
-        <input type="text" name="work_time">
+        <label for="work_time"></label>
+        <select name="work_time" id="work_time">
+            <option value="25 Minutes">25 Minutes</option>
+            <option value="35 Minutes">35 Minutes</option>
+            <option value="45 Minutes">45 Minutes</option>
+        </select>
+
     </p>
 
 <h2> Rest Time </h2>
     <p>
-        <input type="text" name="rest_time">
+        <label for="rest_time"></label>
+        <select name="rest_time" id="rest_time">
+            <option value="5 Minutes">5 Minutes</option>
+            <option value="10 Minutes">10 Minutes</option>
+            <option value="15 Minutes">15 Minutes</option>
+        </select>
     </p>
 
 <button type="submit" form="create-task"> CREATE TASK </button>

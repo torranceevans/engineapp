@@ -6,10 +6,13 @@
 
     <h1> {{task.title}} </h1>
 
-    <form action="/note" method="POST">
-        <input name="note">
+    <form action="/note" method="POST" id="create-note">
+        <textarea name="note" cols="80" rows="25"></textarea>
         <input type="hidden" name="task_id" value="{{ task.task_id }}">
-        <input type="submit">
+        <div>
+            <button type="submit" form="create-note"> DONE </button>
+            <button type="submit" form="create-note"> PAUSE/PLAY </button>
+        </div>
     </form>
 
 {% endblock %}

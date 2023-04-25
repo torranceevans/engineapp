@@ -153,8 +153,6 @@ def create_note():
     # the task_id we got from the form object was a string,
     # but our crud function needed a integer 
 
-    print("*"*20, f"\nin /note post route \nnote = {note} \ntask_id = {task_id}", "*"*20)
-
     task = crud.get_task_by_id(task_id)
 
     new_note = crud.create_note(task, note)
