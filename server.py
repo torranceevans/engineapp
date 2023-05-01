@@ -58,24 +58,24 @@ def process_login():
 
     return redirect("/dashboard")
 
+@app.route("/logout", methods=["GET"])
+def logout():
+    """Process user logout."""
+
+    del session["user_email"]
+
+    return redirect("/")
+
     #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-# @app.route("/dashboard")
-# def create_task_view():
-#     """Show dashboard page."""
-#     return render_template("dashboard.html")
 
-
-@app.route("/dashboard", methods=["GET"])     #FIX THIS ROUTE!!!
+@app.route("/dashboard", methods=["GET"])  
 def dashboard_view():
     """Show details on a particular user."""
 
     if "user_email" in session:
         user_email = session["user_email"]
         user = crud.get_user_by_email(user_email)
-
-        #Need to display every task input for given user
-        #Need to display every feedback page link for every task
 
         return render_template("dashboard.html", user=user)
 
@@ -118,19 +118,6 @@ def create_new_task():
 
     return redirect("/dashboard")
 
-
-    #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-@app.route("/note-records/<task_id>")
-def display_task_notes(task_id):
-    "Show all notes for given task"
-
-    task = crud.get_task_by_id(task_id)
-    for note in task.notes:
-        if note.note_created_at is not None:
-            print("*"*20, dir(note.note_created_at))
-
-    return render_template("note-records.html", task=task)
     
     #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -143,24 +130,41 @@ def active_task(task_id):
 
     return render_template("active-task.html", task=task)
 
-@app.route("/note", methods=["POST"])
-def create_note():
+@app.route("/note/<task_id>", methods=["POST"])
+def create_note(task_id):
     """Create a note in task."""
     
-    note = request.form.get("note")
-    task_id = request.form.get("task_id")
-    task_id = int(task_id)
-    # the task_id we got from the form object was a string,
-    # but our crud function needed a integer 
-
+    note = request.form.get("note_text")
+    print(note)
     task = crud.get_task_by_id(task_id)
 
-    new_note = crud.create_note(task, note)
+    
 
-    db.session.add(new_note)
+    # task_id = request.form.get("task_id")
+    # task_id = int(task_id)
+    # the task_id we got from the form object was a string,
+    # but our crud function needed a integer 
+    #task = crud.get_task_by_id(task_id)
+
+    task.note = note 
+
+    db.session.add(task)
     db.session.commit()
 
-    return redirect(f"/feedback/{task_id}")
+    return redirect(f"/active-task/{task_id}")
+
+
+# @app.route("/update-note/<task_id>", methods=["GET"])
+# def update_note(task_id):
+#     """Update note"""
+
+#     note = request.form.get("note")
+#     task = crud.get_task_by_id(task_id)
+
+#     updated_note = crud.create_note(task, note=note)
+
+#     return redirect("/active-task/<task_id>")
+
 
     #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -194,7 +198,6 @@ def display_user_feedback(task_id):
     """Show feedback records on a given task"""
 
     task = crud.get_task_by_id(task_id)
-    print(task.feedback)
     
     # now we have a task object
     # thank to the relationship you set upi in model, 
@@ -204,10 +207,67 @@ def display_user_feedback(task_id):
 
     return render_template("feedback-records.html", task=task)
 
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+@app.route("/update-user")
+def update_user():
+    """Show update profile page"""
+
+    user = crud.get_user_by_email(session['user_email'])
+
+    return render_template("update-user.html", user=user)
+
+
+@app.route("/update-user", methods=["POST"])
+def update_user_post():
+    """Updates user"""
+
+    first_name = request.form.get("first_name")                 
+    last_name = request.form.get("last_name")
+    email = request.form.get("email")
+    password = request.form.get("password")
+
+    # update_user(user_id, **kwargs): --kwargs will the names of cols in you table (eg fname, lname)
+
+    user = crud.get_user_by_email(session['user_email'])
+    crud.update_user(user.user_id, fname=first_name, lname=last_name, email=email, password=password)
+
+    return redirect("/dashboard")
+
+@app.route("/delete-user", methods=['POST'])
+def delete_user(): 
+    """delete user"""
+
+    user = crud.get_user_by_email(session['user_email'])
+    crud.delete_user(user.user_id)
+
+    return redirect("/")
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+@app.route("/edit-task/<task_id>")
+def edit_task(task_id):
+    """Show edit task page"""
+
+    task = crud.get_task_by_id(task_id)
+
+    return render_template("edit-task.html", task=task)
+
+@app.route("/edit-task/<task_id>", methods=["POST"])                         
+def edit_task_post(task_id):
+    """Edit task"""
+
+    title = request.form.get("title")
+    work_time = request.form.get("work_time")
+    rest_time = request.form.get("rest_time")
+
+    crud.edit_task(task_id, title=title, work_time=work_time, rest_time=rest_time)
+
+    return redirect("/dashboard")
 
 
 
-
+    
 
 
 

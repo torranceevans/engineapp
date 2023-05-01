@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Update Profile  {% endblock %}
+
+
+
+{% block body %} 
+
+<form action="/update-user", method="POST" id="update-user">
+    <input type="text" name="first_name" value="{{ user.fname }}">
+    <input type="text" name="last_name" value="{{ user.lname }}">
+    <input type="text" name="email" value="{{ user.email }}">
+    <input type="text" name="password" value="{{ user.password }}">
+    
+
+    <button type="submit" form="update-user"> UPDATE </button>
+
+    <form> 
+        <button type="submit" formaction="/delete-user" method="POST"> DELETE PROFILE </button>
+    </form>
+
+</form>
+
+
+
+
+
+
+{% endblock %}

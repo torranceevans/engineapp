@@ -1,6 +1,6 @@
 """CRUD operations."""
 
-from model import db, User, Task, Feedback, Note, connect_to_db
+from model import db, User, Task, Feedback, connect_to_db
 import datetime
 
 def create_user(fname, lname, email, password):
@@ -33,17 +33,17 @@ def create_task(user, title, work_time, rest_time):
         user=user, # this is using the sqlalchemy relationship (see model.py lines 38 and 19)
         title=title,
         work_time=work_time,
-        rest_time=rest_time)
+        rest_time=rest_time,
+        task_created_at=datetime.datetime.now())
 
     return task
 
-def create_note(task, note):
+def create_note(task_id, note):
     """Create and return note."""
 
-    note = Note(
-        task=task,
-        note=note,
-        note_created_at= datetime.datetime.now())
+    note = Task(
+        task_id=task_id,
+        note=note)
     
     return note
 
@@ -70,7 +70,36 @@ def create_feedback(task_id, status, feedback):
         feedback_created_at= datetime.datetime.now())
 
     return feedback
-    
+
+def delete_task(task_id):
+    task = User.query.get(task_id)
+    db.session.delete(task)
+    db.session.commit()
+
+def delete_user(user_id):
+    user = User.query.get(user_id)
+    db.session.delete(user)
+    db.session.commit()
+
+def edit_task(task_id, **kwargs):
+    task = Task.query.get(task_id)
+    for key, value in kwargs.items():
+        setattr(task, key, value)
+    db.session.commit()
+
+def update_user(user_id, **kwargs):
+    user = User.query.get(user_id)
+    for key, value in kwargs.items():
+        setattr(user, key, value)
+    db.session.commit()
+
+def update_note(task_id, **kwargs):
+    note = Note.query.get(note_id)
+    for key, value in kwargs.items():
+        setattr(note, key, value)
+    db.session.commit()
+
+
 
 def update_feedback(feedback_id, new_feedback):
     """ Update feedback given feedback_id and the updated feedback. """

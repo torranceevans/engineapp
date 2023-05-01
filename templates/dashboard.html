@@ -15,22 +15,37 @@
     <button type="submit" formaction="/create-task"> NEW TASK </button>
 </form>
 
+<form> 
+    <button type="submit" formaction="/update-user"> UPDATE PROFILE </button>
+</form>
+
+<form> 
+    <button type="submit" formaction="/logout" method="GET"> LOG OUT </button>
+</form>
+
+
+
 <table>
 
-{% for task in user.tasks %}
+{% for task in user.tasks |sort(attribute='task_created_at', reverse=True) %}
     <div>
         <tr> <a href="/active-task/{{ task.task_id }}"> START TASK </a> </tr>
         <tr> {{ task.title }} </tr>
         <tr> {{ task.work_time }} </tr>
         <tr> {{ task.rest_time }}</tr>
-        <tr> <a href="/note-records/{{ task.task_id }}"> NOTES </a> </tr>
+        <tr> {{ task.task_created_at.strftime("%-m/%d/%-y %-I:%M%p") }}</tr>
         <tr> <a href="/feedback-records/{{ task.task_id }}"> FEEDBACK </a> </tr> 
+        
+        <form> 
+            <button type="submit" formaction="/edit-task/{{ task.task_id }}"> EDIT TASK </button>
+        </form>
     </div>
 {% endfor %}
 
 </table>
 
+
+
 {% endblock %}
 
 
-<!-- <a href="/users">this is the text the user would see</a> -->

@@ -5,7 +5,7 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
-class User(db.Model):                   #Need to dropdb - need to find out the name !!!!!!!!!!!!!!!!
+class User(db.Model):                   
     """A user"""
 
     __tablename__ = "users"
@@ -33,31 +33,16 @@ class Task(db.Model):
     title = db.Column(db.String, unique=True)
     work_time = db.Column(db.Text, nullable=False) #How to display drop down selection !!!!!!!
     rest_time = db.Column(db.Text, nullable=False) #How to display drop down selection !!!!!!!
+    note = db.Column(db.Text, nullable=True)
     task_created_at = db.Column(db.DateTime)
 
     user = db.relationship("User", back_populates="tasks")
     feedback = db.relationship("Feedback", back_populates="task")
-    notes = db.relationship("Note", back_populates="task")
 
     def __repr__(self):
         return f"<Task: task_id={self.task_id} title={self.title} user_id={self.user_id}>"
 
 
-class Note(db.Model):
-    """A note created in a given task by user"""
-
-    __tablename__ = "notes"
-
-    note_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    task_id = db.Column(db.Integer, db.ForeignKey("tasks.task_id"))
-    note = db.Column(db.Text)
-    note_created_at = db.Column(db.DateTime)
-
-    task = db.relationship("Task", back_populates="notes")
-
-    def __repr__(self):
-        return f"<Note: note_id={self.note_id} task_id {self.title} note={self.note} note_created_at={self.note_created_at}>"
-        
 
 
 class Feedback(db.Model):

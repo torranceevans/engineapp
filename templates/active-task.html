@@ -1,19 +1,23 @@
 {% extends 'base.html' %}
 
-{% block title %} Active Task Page {% endblock %}
+{% block title %} Active Task {% endblock %}
 
 {% block body %}
 
     <h1> {{task.title}} </h1>
 
-    <form action="/note" method="POST" id="create-note">
-        <textarea name="note" cols="80" rows="25"></textarea>
+
+    <form action="/note/{{ task.task_id }}" method="POST" id="create-note">
+        <textarea name="note_text" cols="80" rows="25" value="{{ task.note }}">{{ task.note }}</textarea>
         <input type="hidden" name="task_id" value="{{ task.task_id }}">
         <div>
-            <button type="submit" form="create-note"> DONE </button>
-            <button type="submit" form="create-note"> PAUSE/PLAY </button>
+            <button type="submit" form="create-note"> SAVE CHANGES </button>
         </div>
     </form>
+
+    <form> 
+        <button type="submit" formaction="/feedback/{{ task.task_id }}"> DONE </button>
+    </form> 
 
 {% endblock %}
 

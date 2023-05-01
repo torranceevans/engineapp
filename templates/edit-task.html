@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Edit {{ task.title }}  {% endblock %}
+
+
+{% block body %} 
+
+<form action="/edit-task/{{ task.task_id }}", method="POST" id="edit-task">
+
+    <h2> Task Title </h2>
+        <p>
+            <input type="text" name="title" value="{{ task.title }}">
+        </p>
+
+
+    <h2> Work Time </h2>
+        <p>
+            <label for="work_time"></label>
+            <select name="work_time" id="work_time" value="{{ task.work_time}}">
+                <option value="25 Minutes">25 Minutes</option>
+                <option value="35 Minutes">35 Minutes</option>
+                <option value="45 Minutes">45 Minutes</option>
+            </select>
+    
+        </p>
+
+    <h2> Rest Time </h2>
+        <p>
+            <label for="rest_time"></label>
+            <select name="rest_time" id="rest_time" value="{{ task.rest_time}}">
+                <option value="5 Minutes">5 Minutes</option>
+                <option value="10 Minutes">10 Minutes</option>
+                <option value="15 Minutes">15 Minutes</option>
+            </select>
+        </p>
+    
+
+    
+    <p>
+        <button type="submit" form="edit-task"> SAVE CHANGES </button>
+    </p>
+
+
+
+
+{% endblock %}
