@@ -17,15 +17,20 @@ def login_or_newAccount():
 
     return render_template("homepage.html")
 
+@app.route("/create-user")
+def create_user():
+
+    return render_template("create-user.html")
 
 @app.route("/create-user", methods=["POST"])
-def register_user():
+def create_user_post():
     """Create a new user."""
 
     first_name = request.form.get("first_name")
     last_name = request.form.get("last_name")
     email = request.form.get("email")
     password = request.form.get("password")
+    confirm_password = request.form.get("confirm-password")
 
     user = crud.get_user_by_email(email)
     if user:
