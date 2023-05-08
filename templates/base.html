@@ -4,14 +4,23 @@
 
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+  
+    {% block head %}{% endblock %}
+
     <title>
       {% block title %}{% endblock %}
     </title>
-    {% block head %}{% endblock %}
+
+ 
   </head>
 
   <body>
+    
+
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         <ul class=flashes>
@@ -23,6 +32,12 @@
     {% endwith %}
 
     {% block body %}{% endblock %}
+
   </body>
 
+  <!-- <script src="/home/torranceevans/src/Engine_App/static/engine-app.js"></script>  --> 
+
 </html>
+
+
+

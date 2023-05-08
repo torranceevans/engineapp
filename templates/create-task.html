@@ -1,22 +1,71 @@
 {% extends 'base.html' %}
 
+{% block head %}    
+<link rel="stylesheet" type="text/css"  href="static/styles.css">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+{% endblock %}
+
+
+
+
+
 {% block title %} Create New Task {% endblock %}
 
 {% block body %}
+<div class="box">
+    <div class="container">
+        <div class="top">
+            <!-- <span>Have an account?</span> -->
+            <header>Create Your Task</header>
+        </div>
 
-<h1> Create New Task </h1>
+        <form action="/create-task" method="POST">
+            <div class="input-field">
+                
+                <input type="text" class="input" name="title" placeholder="Task Title">
+                <i class='bx bx-user' ></i>
+            </div>
+            <div class="input-field">
+                <input type="text" class="input" name="work_time" placeholder="Work Time">
+                <i class='bx bx-user' ></i>
+            </div>
+            <div class="input-field">
+                <input type="text" class="input" name="rest_time" placeholder="Rest Time">
+                <i class='bx bx-user' ></i>
+            </div>
+           
+            <div class="input-field">
+                <input type="submit" class="submit" value="Create Task">
+            </div>
+      </form>
+
+        
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<!-- <h1> Create New Task </h1>
 
 <h2> Task Title </h2>
 
 <form action="/create-task" method="POST" id="create-task">
     <p>
-        <input type="text" name="title">
+        <input type="text" name="title" placeholder="Name your task...">
     </p>
 
 <h2> Work Time </h2>
     <p>
         <label for="work_time"></label>
-        <select name="work_time" id="work_time">
+        <select name="work_time" id="work_time" placeholder="Select a Work Time">
             <option value="25 Minutes">25 Minutes</option>
             <option value="35 Minutes">35 Minutes</option>
             <option value="45 Minutes">45 Minutes</option>
@@ -36,7 +85,7 @@
 
 <button type="submit" form="create-task"> CREATE TASK </button>
 
-</form>
+</form> -->
 
 {% endblock %}
 

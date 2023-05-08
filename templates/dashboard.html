@@ -1,27 +1,61 @@
 {% extends 'base.html' %}
 
+{% block head %}    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"/>   
+    <link rel="stylesheet" type="text/css"  href="static/navbar.css">
+    <link rel="stylesheet" type="text/css"  href="static/buttons.css">
+
+
+
+
+{% endblock %}
+
+
+
+
 {% block title %} {{ user.fname }}'s Tasks {% endblock %}
 
 {% block body %}
 
+
+
+<div class="menu-bar">
+    <h1 class="logo"><span>Engine.</span></h1>
+    <ul>
+      <li><a href="#">Help Center<i class="fas fa-caret-down"></i></a>
+
+          <div class="dropdown-menu">
+              <ul>
+                <li><a href="/dashboard" method="GET">Dashboard</a></li>
+                <li><a href="/update-user">Update Profile</a></li>
+                <li><a href="/logout" method="GET">Log Out </a></li>
+                    
+            
+            </div>
+      </li>
+
+    </ul>
+ </div>
+
+  <div class="hero">
+    &nbsp;
+  </div>
+</div>
+
 <h1>{{ user.fname }}'s Tasks</h1> 
+
 
 
 {% if user.tasks == [] %}
 <h4>No tasks to display yet!</h4>
 {% endif %}
 
-<form> 
-    <button type="submit" formaction="/create-task"> NEW TASK </button>
-</form>
 
 <form> 
-    <button type="submit" formaction="/update-user"> UPDATE PROFILE </button>
+    <button class="pill pill--selected" type="submit" formaction="/create-task"> NEW TASK </button>
 </form>
 
-<form> 
-    <button type="submit" formaction="/logout" method="GET"> LOG OUT </button>
-</form>
+
 
 
 
@@ -43,6 +77,143 @@
 {% endfor %}
 
 </table>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<style>
+    th{ 
+        cursor: pointer;
+        color:#fff;
+        font-family: 'poppins' ,sans-serif;
+        
+
+            }
+    
+    
+
+        
+    
+</style>
+
+<div class="row">
+    <div class="col">
+        <div class="card card-body">
+
+            <input id="search-input" class="form-control" type="text">
+
+        </div>
+    </div>
+</div>
+
+
+<table class="table table-striped">
+    <tr  class="bg-info">
+        <th  data-colname="birthdate" data-order="desc"></th>
+        <th  class="bg-info" data-colname="name" data-order="desc">Name &#9650</th>
+        <th  data-colname="age" data-order="desc">Work Time &#9650</th>
+        <th  data-colname="birthdate" data-order="desc">Rest Time &#9650</th>
+        <th  data-colname="birthdate" data-order="desc">Date Created &#9650</th>
+        <th  data-colname="birthdate" data-order="desc">Feedback &#9650</th>
+        <th  data-colname="birthdate" data-order="desc"> </th>
+
+    </tr>
+    <tbody id="myTable">
+        
+    </tbody>
+</table>
+
+
+
+<script>
+var myArray = [
+    {% for task in user.tasks |sort(attribute='task_created_at', reverse=True) %}
+        {'title': {{ task.title | tojson}}, 
+        'work_time':{{ task.work_time | tojson}}, 
+        'rest_time':{{ task.rest_time | tojson}}, 
+        'date_created':{{ task.task_created_at.strftime("%-m/%d/%-y %-I:%M%p") | tojson }},
+        'feedback': {{ task.task_id }}
+        },
+    {% endfor %}
+]
+// we used jinja to add variable into our javascript and this worked ONLY because your js is written on the same page as your html. If you had used an external js file, we would have had to use ajax or do thios in another script tag above where we include the external file
+
+console.log(myArray)
+
+$("#search-input").on('keyup', function(){ //$ is shorthand for jquery the lib you're using
+// .on is a jquery method that adds and event listener, takes a event name and a callback function
+// "keyup" is each time the user presses a key then stops pressing
+// the next 4 lines of code are inside the callback and happen once every keyup
+    var value = $(this).val() // keyword this means "the current context" in this case, the elememnt on which the event occcured
+    console.log('Value:', value) // showing what they typed
+    var data = searchTable(value, myArray) // we are using the searchTable fn to filter the data to pass to build table on the next line
+    buildTable(data)
+
+})
+
+buildTable(myArray)
+
+function searchTable(value, data){
+    // takes a value and the myArrray data and returns a new array that has been filtered
+    var filteredData = []
+
+    for (var i = 0; i < data.length; i++){
+        value = value.toLowerCase()
+        var name = data[i].title.toLowerCase()
+
+        if (name.includes(value)){
+            filteredData.push(data[i])
+        }
+    }
+
+    return filteredData
+}
+
+    
+   
+ 
+    
+function buildTable(data){
+    // we are creating a string of html and adding it to the dom inside of the myTable element
+    var table = document.getElementById('myTable')
+    table.innerHTML = ''
+    for (var i = 0; i < data.length; i++){
+        var colname = `name-${i}`
+        var colage = `age-${i}`
+        var colbirth = `birth-${i}`
+
+        var row = `<tr>
+                        <td> <h3> START TASK </h3>
+                        <td>${data[i].title}</td>
+                        <td>${data[i].work_time}</td>
+                        <td>${data[i].rest_time}</td>
+                        <td>${data[i].date_created}</td>
+                        <td> <h3> FEEDBACK </h3> </td>
+                        <td> <h3> EDIT </h3> </td>
+                   </tr>` // this used stirng interpolation 
+        table.innerHTML += row // this is string concatenation
+    }
+}
+
+</script>
 
 
 

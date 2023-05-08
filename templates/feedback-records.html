@@ -1,16 +1,46 @@
 {% extends 'base.html' %}
 
+{% block head %}    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"/>   
+    <link rel="stylesheet" type="text/css"  href="/static/navbar.css">
+{% endblock %}
+
+
 {% block title %} {{ task.title }}'s Feedback {% endblock %}
 
 {% block body %}
 
-<h1> {{ task.title }}'s Feedback </h1> 
+<div class="menu-bar">
+    <h1 class="logo"><span>Engine.</span></h1>
+    <ul>
+      <li><a href="#">Help Center<i class="fas fa-caret-down"></i></a>
+
+          <div class="dropdown-menu">
+              <ul>
+                <li><a href="/dashboard" method="GET">Dashboard</a></li>
+                <li><a href="/update-user">Update Profile</a></li>
+                <li><a href="/logout" method="GET">Log Out </a></li>
+                    
+            
+            </div>
+      </li>
+
+    </ul>
+ </div>
+
+  <div class="hero">
+    &nbsp;
+  </div>
+</div>
+
+
+<h1> "{{ task.title }}'s" Feedback </h1> 
 
 {% if task.feedback == [] %}
 <h4>No feedback to display yet!</h4>
 {% endif %}
 
-
+<!--
 <table>
 
 {% for feedback in task.feedback %}
@@ -26,9 +56,122 @@
 {% endfor %}
 
 </table>
+-->
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<style>
+    th{ 
+        cursor: pointer;
+        color:#fff;
+        font-family: 'poppins' ,sans-serif;
+        
+
+            }
+    
+    
+
+        
+    
+</style>
+
+<!--
+<div class="row">
+    <div class="col">
+        <div class="card card-body">
+
+            <input id="search-input" class="form-control" type="text">
+
+        </div>
+    </div>
+</div>
+-->
+
+<table class="table table-striped">
+    <tr  class="bg-info">
+        <th  class="bg-info" data-colname="name" data-order="desc">Date Created &#9650</th>
+        <th  data-colname="age" data-order="desc">Feedback &#9650</th>
+        <th  data-colname="birthdate" data-order="desc">Status &#9650</th>
+
+    </tr>
+    <tbody id="myTable">
+        
+    </tbody>
+</table>
+
+
+
+<script>
+var myArray = [
+    {% for feedback in task.feedback |sort(attribute='feedback_created_at', reverse=True) %}
+        {'date_created': {{ feedback.feedback_created_at.strftime("%-m/%d/%-y %-I:%M%p") | tojson }}, 
+        'feedback':{{ feedback.feedback | tojson }}, 
+        'status':{{ feedback.status | tojson}},
+        },
+    {% endfor %}
+]
+// we used jinja to add variable into our javascript and this worked ONLY because your js is written on the same page as your html. If you had used an external js file, we would have had to use ajax or do thios in another script tag above where we include the external file
+
+console.log(myArray)
+
+$("#search-input").on('keyup', function(){ //$ is shorthand for jquery the lib you're using
+// .on is a jquery method that adds and event listener, takes a event name and a callback function
+// "keyup" is each time the user presses a key then stops pressing
+// the next 4 lines of code are inside the callback and happen once every keyup
+    var value = $(this).val() // keyword this means "the current context" in this case, the elememnt on which the event occcured
+    console.log('Value:', value) // showing what they typed
+    var data = searchTable(value, myArray) // we are using the searchTable fn to filter the data to pass to build table on the next line
+    buildTable(data)
+
+})
+
+buildTable(myArray)
+
+function searchTable(value, data){
+    // takes a value and the myArrray data and returns a new array that has been filtered
+    var filteredData = []
+
+    for (var i = 0; i < data.length; i++){
+        value = value.toLowerCase()
+        var name = data[i].title.toLowerCase()
+
+        if (name.includes(value)){
+            filteredData.push(data[i])
+        }
+    }
+
+    return filteredData
+}
+
+    
+   
+ 
+    
+function buildTable(data){
+    // we are creating a string of html and adding it to the dom inside of the myTable element
+    var table = document.getElementById('myTable')
+    table.innerHTML = ''
+    for (var i = 0; i < data.length; i++){
+        var colname = `name-${i}`
+        var colage = `age-${i}`
+        var colbirth = `birth-${i}`
+
+        var row = `<tr>
+                        <td>${data[i].date_created}</td>
+                        <td>${data[i].feedback}</td>
+                        <td>${data[i].status}</td>
+                   </tr>` // this used stirng interpolation 
+        table.innerHTML += row // this is string concatenation
+    }
+}
+
+</script>
+
 
 {% endblock %}
 
 
-
-<!-- <a href="/users">this is the text the user would see</a> -->

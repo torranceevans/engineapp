@@ -2,7 +2,46 @@
 
 {% block title %} Active Task {% endblock %}
 
+{% block head %}    
+    <link rel="stylesheet" type="text/css"  href="/static/navbar.css">
+    <link rel="stylesheet" type="text/css"  href="/static/buttons.css">
+    <link rel="stylesheet" type="text/css"  href="/static/text-editor.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+{% endblock %}
+
+
 {% block body %}
+
+<div class="menu-bar">
+    <h1 class="logo"><span>Engine.</span></h1>
+    <ul>
+      <li><a href="#">Help Center<i class="fas fa-caret-down"></i></a>
+
+          <div class="dropdown-menu">
+              <ul>
+                <li><a href="/Dashboard">Dashboard</a></li>
+                <li><a href="/update-user">Update Profile</a></li>
+                <li><a href="/logout" method="GET">Log Out </a></li>
+                    
+            
+            </div>
+      </li>
+
+    </ul>
+ </div>
+
+  <div class="hero">
+    &nbsp;
+  </div>
+</div>
+
+
+
+
+
+
+
 
     <h1> {{task.title}} </h1>
 
@@ -18,6 +57,67 @@
     <form> 
         <button type="submit" formaction="/feedback/{{ task.task_id }}"> DONE </button>
     </form> 
+
+-->
+
+
+    <section>
+        <div class="row">
+            <div class="col">
+                <div class="first box">
+                    <input id="font-size" type="number" value="16" min="1" max="100" onchange="f1(this)">
+                </div>
+                <div class="second box">
+                    <button type="button" onclick="f2(this)">
+                        <i class="fa-solid fa-bold"></i>
+                    </button>
+                    <button type="button" onclick="f3(this)">
+                        <i class="fa-solid fa-italic"></i>
+                    </button>
+                    <button type="button" onclick="f4(this)">
+                        <i class="fa-solid fa-underline"></i>
+                    </button>
+                </div>
+                <div class="third box">
+                    <button type="button" onclick="f5(this)">
+                        <i class="fa-solid fa-align-left"></i>
+                    </button>
+                    <button type="button" onclick="f6(this)">
+                        <i class="fa-solid fa-align-center"></i>
+                    </button>
+                    <button type="button" onclick="f7(this)">
+                        <i class="fa-solid fa-align-right"></i>
+                    </button>
+                </div>
+                <div class="fourth box">
+                    <button type="button" onclick="f8(this)">aA</button>
+                    <button type="button" onclick="f9()">
+                        <i class="fa-solid fa-text-slash"></i>
+                    </button>
+                    <input type="color" onchange="f10(this)">
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col">
+                <textarea id="textarea1" placeholder="Your text here "></textarea>
+            </div>
+        </div>
+    </section>
+
+    <script src="app.js"></script>
+
+
+
+
+
+
+
+
+    
+
+
 
 {% endblock %}
 

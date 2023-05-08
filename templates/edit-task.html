@@ -1,10 +1,59 @@
 {% extends 'base.html' %}
 
 
+{% block head %}    
+<link rel="stylesheet" type="text/css"  href="/static/styles.css">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+{% endblock %}
+
+
+
 {% block title %} Edit {{ task.title }}  {% endblock %}
 
 
 {% block body %} 
+<div class="box">
+    <div class="container">
+        <div class="top">
+            <!-- <span>Have an account?</span> -->
+            <header>Edit Your Task</header>
+        </div>
+
+        <form action="/edit-task/{{ task.task_id }}" method="POST">
+            <div class="input-field">
+                
+                <input type="text" class="input" name="title" value="{{ task.title }}">
+                <i class='bx bx-user' ></i>
+            </div>
+            
+            <div class="input-field">
+                <input type="text" class="input" name="work_time" placeholder="{{ task.work_time}}">
+                <i class='bx bx-user' ></i>
+            </div>
+
+            <div class="input-field">
+                <input type="text" class="input" name="rest_time" placeholder="{{ task.rest_time}}">
+                <i class='bx bx-user' ></i>
+            </div>
+           
+            <div class="input-field">
+                <input type="submit" class="submit" value="Save Changes">
+            </div>
+      </form>
+
+        
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+
+<!--
 
 <form action="/edit-task/{{ task.task_id }}", method="POST" id="edit-task">
 
@@ -41,7 +90,7 @@
         <button type="submit" form="edit-task"> SAVE CHANGES </button>
     </p>
 
-
+-->
 
 
 {% endblock %}

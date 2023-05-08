@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 
+{% block head %}
+<link rel="stylesheet" type="text/css"  href="static/styles.css">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+{% endblock %}
+
 
 {% block title %} Update Profile  {% endblock %}
 
@@ -7,6 +12,7 @@
 
 {% block body %} 
 
+<!--
 <form action="/update-user", method="POST" id="update-user">
     <input type="text" name="first_name" value="{{ user.fname }}">
     <input type="text" name="last_name" value="{{ user.lname }}">
@@ -21,6 +27,45 @@
     </form>
 
 </form>
+-->
+
+
+<div class="box">
+    <div class="container">
+        <div class="top">
+            <!-- <span>Have an account?</span> -->
+            <header>Engine</header>
+        </div>
+  
+        <form action="/update-user" method="POST">
+            <div class="input-field">
+                <input type="text" class="input" name="first_name" value="{{ user.fname }}">
+                <i class='bx bx-user' ></i>
+            </div>
+            <div class="input-field">
+                <input type="text" class="input" name="last_name" value="{{ user.lname }}">
+                <i class='bx bx-user' ></i>
+            </div>
+            <div class="input-field">
+                <input type="text" class="input" name="email" value="{{ user.email }}">
+                <i class='bx bx-user' ></i>
+            </div>
+            <div class="input-field">
+                <input type="Password" class="input" name="password" value="{{ user.password }}">
+                <i class='bx bx-lock-alt'></i>
+            </div>
+            <div class="input-field">
+                <input type="submit" class="submit" value="Save Changes">
+            </div>
+      </form>
+        
+
+    </div>
+  </div>  
+
+
+
+
 
 
 
