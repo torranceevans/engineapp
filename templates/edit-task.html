@@ -2,7 +2,7 @@
 
 
 {% block head %}    
-<link rel="stylesheet" type="text/css"  href="/static/styles.css">
+<link rel="stylesheet" type="text/css"  href="/static/feedback.css">
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 {% endblock %}
@@ -27,15 +27,35 @@
                 <i class='bx bx-user' ></i>
             </div>
             
-            <div class="input-field">
+            <!-- <div class="input-field">
                 <input type="text" class="input" name="work_time" placeholder="{{ task.work_time}}">
                 <i class='bx bx-user' ></i>
-            </div>
+            </div> -->
 
             <div class="input-field">
+                <label for="work_time"></label>
+                <select class="input" name="work_time" id="work_time" value="{{ task.work_time}}">
+                    <option value="25 Minutes">25 Minutes</option>
+                    <option value="35 Minutes">35 Minutes</option>
+                    <option value="45 Minutes">45 Minutes</option>
+                </select>
+            </div>
+
+            <!-- <div class="input-field">
                 <input type="text" class="input" name="rest_time" placeholder="{{ task.rest_time}}">
                 <i class='bx bx-user' ></i>
+            </div> -->
+            
+            <div class="input-field">
+                <label for="rest_time"></label>
+                <select class="input" name="rest_time" id="rest_time" value="{{ task.rest_time}}">
+                    <option value="5 Minutes">5 Minutes</option>
+                    <option value="10 Minutes">10 Minutes</option>
+                    <option value="15 Minutes">15 Minutes</option>
+                </select>
             </div>
+
+
            
             <div class="input-field">
                 <input type="submit" class="submit" value="Save Changes">
@@ -43,7 +63,6 @@
       </form>
 
         
-        </form>
     </div>
 </div>
 

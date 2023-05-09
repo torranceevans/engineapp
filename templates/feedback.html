@@ -2,18 +2,83 @@
 
 {% block title %} Feedback {% endblock %}
 
+{% block head %}    
+<link rel="stylesheet" type="text/css"  href="/static/feedback.css">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+{% endblock %}
+
+
 {% block body %}
 
-    <h1> Task Feedback </h1>
+<div class="box">
+    <div class="container">
+        <div class="top">
+            <!-- <span>Have an account?</span> -->
+            <header>Task Feedback</header>
+        </div>
+
+        <form action="/feedback" method="POST">
+
+            <div class="top">
+                <!-- <span>Have an account?</span> -->
+                <header>Choose Status</header>
+            </div>
+
+            <div class="input-field">
+                <label for="status"></label>
+                <select class="input" name="status" id="status">
+                    <option value="COMPLETED">COMPLETED</option>
+                    <option value="In Progres">In Progress</option>
+                </select>
+            </div>
+
+            <div class="top">
+                <!-- <span>Have an account?</span> -->
+                <header>Choose Feedback </header>
+            </div>
+    
+
+            <div class="input-field">
+                <label for="feedback"></label>
+                <select class="input" name="feedback" id="feedback" value="Choose Feedback">
+                    <option value="Productive">Productive</option>
+                    <option value="Distracted">Distracted</option>
+                </select>
+            </div>
+
+            <input type="hidden" name="task_id" value="{{ task.task_id }}">
+
+       
+            <div class="input-field">
+                <input type="submit" class="submit" value="Submit">
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+   <!-- <h1> Task Feedback </h1>
 
     <form action="/feedback" method="POST" id="/feedback">
     <h2> Status </h2>
         <p>
-            <input type="radio" id="completed" name="status" value="COMPLETED">
-                <label for="completed"> COMPLETED </label>
+            <div class="input-field">
 
-            <input type="radio" id="in_progress" name="status" value="In Progress">
-                <label for="in_progress"> In Progress </label>
+                <input type="radio" id="completed" name="status" value="COMPLETED">
+                    <label for="completed"> COMPLETED </label>
+
+                <input type="radio" id="in_progress" name="status" value="In Progress">
+                    <label for="in_progress"> In Progress </label>
         </p>
     
     <h2> Feedback </h2>
@@ -31,4 +96,49 @@
     
     </form>
 
+-->
+
 {% endblock %}
+
+
+
+
+
+
+<div class="box">
+    <div class="container">
+        <div class="top">
+            <!-- <span>Have an account?</span> -->
+            <header>Task Feedback</header>
+        </div>
+
+        <form action="/feedback" method="POST">
+
+            <div class="input-field">
+                <label for="status"></label>
+                <select class="input" name="status" id="status" value="Choose Status">
+                    <option value="COMPLETED">COMPLETED</option>
+                    <option value="In Progres">In Progress</option>
+                </select>
+            </div>
+    
+
+            <div class="input-field">
+                <label for="feedback"></label>
+                <select class="input" name="feedback" id="feedback" value="Choose Feedback">
+                    <option value="Productive">Productive</option>
+                    <option value="Distracted">Distracted</option>
+                </select>
+            </div>
+
+            <input type="hidden" name="task_id" value="{{ task.task_id }}">
+       
+            <div class="input-field">
+                <input type="submit" class="submit" value="Submit">
+            </div>
+        </form>
+
+
+
+    </div>
+</div>

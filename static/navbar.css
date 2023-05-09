@@ -103,6 +103,7 @@
     background-color: var(--color-black);
   }
   
+  
   .hero {
     height: calc(25vh - 80px);
     background-image: url(./bg.jpg);

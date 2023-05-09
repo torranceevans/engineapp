@@ -58,7 +58,7 @@
 
 
 
-
+<!--
 <table>
 
 {% for task in user.tasks |sort(attribute='task_created_at', reverse=True) %}
@@ -77,7 +77,7 @@
 {% endfor %}
 
 </table>
-
+-->
 
 
     
@@ -132,7 +132,7 @@
         <th  data-colname="age" data-order="desc">Work Time &#9650</th>
         <th  data-colname="birthdate" data-order="desc">Rest Time &#9650</th>
         <th  data-colname="birthdate" data-order="desc">Date Created &#9650</th>
-        <th  data-colname="birthdate" data-order="desc">Feedback &#9650</th>
+        <th  data-colname="birthdate" data-order="desc"> </th>
         <th  data-colname="birthdate" data-order="desc"> </th>
 
     </tr>
@@ -146,11 +146,13 @@
 <script>
 var myArray = [
     {% for task in user.tasks |sort(attribute='task_created_at', reverse=True) %}
-        {'title': {{ task.title | tojson}}, 
+    
+        {
+        'title': {{ task.title | tojson}}, 
         'work_time':{{ task.work_time | tojson}}, 
         'rest_time':{{ task.rest_time | tojson}}, 
         'date_created':{{ task.task_created_at.strftime("%-m/%d/%-y %-I:%M%p") | tojson }},
-        'feedback': {{ task.task_id }}
+        'task_id': {{ task.task_id }}
         },
     {% endfor %}
 ]
@@ -201,13 +203,16 @@ function buildTable(data){
         var colbirth = `birth-${i}`
 
         var row = `<tr>
-                        <td> <h3> START TASK </h3>
+                        <td> <form> <button class="pill pill--selected" type="submit" formaction=/active-task/${data[i].task_id}> START TASK </button>
+                            </form>
                         <td>${data[i].title}</td>
                         <td>${data[i].work_time}</td>
                         <td>${data[i].rest_time}</td>
                         <td>${data[i].date_created}</td>
-                        <td> <h3> FEEDBACK </h3> </td>
-                        <td> <h3> EDIT </h3> </td>
+                        <td> <form> <button class="pill pill--selected" type="submit" formaction="feedback-records/${data[i].task_id}"> FEEDBACK </button>
+                            </form> </td>
+                        <td> <form><button class="pill pill--selected" type="submit" formaction="edit-task/${data[i].task_id}"> EDIT TASK </button>
+                            </form> </td>
                    </tr>` // this used stirng interpolation 
         table.innerHTML += row // this is string concatenation
     }
@@ -218,5 +223,10 @@ function buildTable(data){
 
 
 {% endblock %}
+
+
+
+
+
 
 

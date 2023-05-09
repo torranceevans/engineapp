@@ -8,14 +8,16 @@ body {
     background: #55a0dd;
     height: 100vh;
     width: 100%;
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
 }
 
 section {
     height: 500px;
-    width: 600px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto; 
 }
 
 .col {
@@ -94,4 +96,9 @@ textarea {
     outline: none;
     border: none;
     resize: vertical;
+}
+
+.title {
+    margin-left: 470px
+
 }
